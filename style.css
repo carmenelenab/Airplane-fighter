@@ -1,0 +1,59 @@
+body {
+    text-align: right;
+}
+
+.gameBoard {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+
+    width: 840px;
+    height: 500px;
+
+    background-color: aqua;
+    border: 3px solid rgb(24, 4, 139);
+
+    margin: 0 auto;
+    position: relative;
+}
+
+.airplane {
+    position: relative;
+
+    left: 50%;
+    bottom: 0;
+
+    width: 30px;
+    height: 30px;
+
+    border: 2px solid red;
+    background-color: yellow
+}
+
+#game-over {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(240, 215, 185, 0.9);
+    padding: 20px;
+    z-index: 999;
+    display: none;
+    text-align: center;
+}
+
+h2 {
+    color: red;
+}
+
+h3 {
+    color: blue;
+}
+
+#new-game {
+    background-color: yellow;
+    border-radius: 25%;
+    border-color: red;
+    color: blueviolet;
+}
