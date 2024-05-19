@@ -8,10 +8,12 @@ body {
     align-items: flex-end;
 
 
-    width: 840px;
+    width: 860px;
     height: 500px;
 
-    background-color: aqua;
+    /* background-color: aqua; */
+    background-image: url(background.jpg);
+    background-size: cover;
     border: 3px solid rgb(24, 4, 139);
 
     margin: 0 auto;
@@ -24,11 +26,11 @@ body {
     left: 50%;
     bottom: 0;
 
-    width: 30px;
-    height: 30px;
+    width: 70px;
+    height: 60px;
 
-    border: 2px solid red;
-    background-color: yellow
+    background-image: url(airplane2.png);
+    background-size: cover;
 }
 
 #game-over {
