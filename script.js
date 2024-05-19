@@ -8,9 +8,6 @@ let airplaneLeft;
 let avoidedObjects = 0;
 let gameOver = false;
 
-const MINIM_WIDTH = 20;
-const VARIATION_WIDTH = 50;
-
 const HOUR = 60;
 
 window.addEventListener('load', () => {
@@ -57,6 +54,13 @@ window.addEventListener('keydown', (e) => {
     }
 });
 
+const objectImages = [
+    'object1.png',
+    'object2.png',
+    'object3.png',
+    'object4.png',
+];
+
 function generateFallingObject() {
     if (gameOver) {
         return;
@@ -65,22 +69,21 @@ function generateFallingObject() {
     let fallingObject = document.createElement('div');
     fallingObject.classList.add('fallingObject');
 
-    // Randomize the width(between 20 and 70 pixels) and position of the 
-    //falling object
-    let objectWidth = Math.floor(Math.random() * VARIATION_WIDTH) + MINIM_WIDTH;
-    // Random left position within the game board
-    let objectLeft =
-        Math.floor(Math.random() * (gameBoard.offsetWidth - objectWidth));
+    let randomImage =
+        objectImages[Math.floor(Math.random() * objectImages.length)];
+    const objectWidth = 65;
+    const columns = Math.floor(gameBoardWidth / objectWidth);
+    const randomColumn = Math.floor(Math.random() * columns);
+    const objectLeft = randomColumn * objectWidth;
 
     // Apply styles to the falling object
-    fallingObject.style.width = objectWidth + 'px';
-    fallingObject.style.height = '20px'; // Adjust height as needed
-    fallingObject.style.backgroundColor = 'green'; // Adjust color as needed
-    fallingObject.style.position = 'absolute';
+    fallingObject.style.backgroundImage = `url(${randomImage})`;
+    fallingObject.style.backgroundSize = 'cover';
     fallingObject.style.left = objectLeft + 'px';
     fallingObject.style.top = '0px'; // Start from above the game board
 
     // Append the falling object to the game board
+    console.log('Adding falling object:', fallingObject);
     gameBoard.appendChild(fallingObject);
 
     // Animate the falling object
