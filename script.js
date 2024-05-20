@@ -8,6 +8,7 @@ let airplaneLeft;
 let avoidedObjects = 0;
 let gameOver = false;
 
+const SPEED_ADJUSTMENT = 10;
 const HOUR = 60;
 
 window.addEventListener('load', () => {
@@ -92,7 +93,7 @@ function generateFallingObject() {
         let bottomPosition = topPosition + fallingObject.offsetHeight;
         if (bottomPosition < gameBoard.offsetHeight) {
             // Adjust speed as needed
-            fallingObject.style.top = (topPosition + 5) + 'px';
+            fallingObject.style.top = (topPosition + SPEED_ADJUSTMENT) + 'px';
         } else {
             clearInterval(fallInterval);
             // Remove the falling object when it reaches the bottom
