@@ -3,13 +3,18 @@ const gameBoard = document.querySelector('.gameBoard');
 const gameBoardWidth = gameBoard.clientWidth;
 const airplaneWidth = airplane.offsetWidth;
 
-let moveBy = 10;
+const MOVE_BY = 10;
+const SPEED_ADJUSTMENT = 5;
+const TIMER_INTERVAL = 1000; // 1 second
+const COLLISION_CHECK_INTERVAL = 100;
+const FALLING_CHECK_INTERVAL = 60;
+const FALLING_OBJECT_INTEVAL = 2000;
+const FALLING_OBJECT_WIDTH = 65;
+const ONE_MINUTE = 60;// 60 second
+
 let airplaneLeft;
 let avoidedObjects = 0;
 let gameOver = false;
-
-const SPEED_ADJUSTMENT = 10;
-const HOUR = 60;
 
 window.addEventListener('load', () => {
     setInitialPosition();
@@ -30,24 +35,24 @@ let timerInterval;
 function startTimer() {
     timerInterval = setInterval(() => {
         ++seconds;
-        if (seconds === HOUR) {
+        if (seconds === ONE_MINUTE) {
             seconds = 0;
             ++minutes;
         }
-    }, 1000) // Update timer every second
+    }, TIMER_INTERVAL) // Update timer every second
 }
 
 //listening the keydown events
 window.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft') {
         if (airplaneLeft > 0) {
-            airplaneLeft -= moveBy;
+            airplaneLeft -= MOVE_BY;
             airplaneLeft = Math.max(airplaneLeft, 0);
             airplane.style.left = airplaneLeft + 'px';
         }
     } else if (e.key === 'ArrowRight') {
         if (airplaneLeft + airplaneWidth < gameBoardWidth) {
-            airplaneLeft += moveBy;
+            airplaneLeft += MOVE_BY;
             let maxRightPosition = gameBoardWidth - airplaneWidth;
             airplaneLeft = Math.min(airplaneLeft, maxRightPosition);
             airplane.style.left = airplaneLeft + 'px';
@@ -56,10 +61,10 @@ window.addEventListener('keydown', (e) => {
 });
 
 const objectImages = [
-    'object1.png',
-    'object2.png',
-    'object3.png',
-    'object4.png',
+    'images/object1.png',
+    'images/object2.png',
+    'images/object3.png',
+    'images/object4.png',
 ];
 
 function generateFallingObject() {
@@ -72,10 +77,9 @@ function generateFallingObject() {
 
     let randomImage =
         objectImages[Math.floor(Math.random() * objectImages.length)];
-    const objectWidth = 65;
-    const columns = Math.floor(gameBoardWidth / objectWidth);
+    const columns = Math.floor(gameBoardWidth / FALLING_OBJECT_WIDTH);
     const randomColumn = Math.floor(Math.random() * columns);
-    const objectLeft = randomColumn * objectWidth;
+    const objectLeft = randomColumn * FALLING_OBJECT_WIDTH;
 
     // Apply styles to the falling object
     fallingObject.style.backgroundImage = `url(${randomImage})`;
@@ -103,12 +107,12 @@ function generateFallingObject() {
                 console.log(avoidedObjects);
             }
         }
-    }, 60); // Adjust interval as needed
+    }, FALLING_CHECK_INTERVAL); // Adjust interval as needed
 }
 
 // Call function at regular intervals to generate falling objects
 // Adjust interval as need
-let objectInterval = setInterval(generateFallingObject, 2000);
+let objectInterval = setInterval(generateFallingObject, FALLING_OBJECT_INTEVAL);
 
 function checkCollision() {
     // Get the position and size of the airplane
@@ -132,7 +136,8 @@ function checkCollision() {
     });
 }
 
-setInterval(checkCollision, 100); // Check for collision every 100 milliseconds
+// Check for collision every 100 milliseconds
+setInterval(checkCollision, COLLISION_CHECK_INTERVAL);
 
 function isGameOver() {
     let score = document.getElementById('score');

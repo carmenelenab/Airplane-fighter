@@ -10,7 +10,7 @@ body {
     width: 860px;
     height: 500px;
 
-    background-image: url(background.jpg);
+    background-image: url(/images/background.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     border: 3px solid rgb(24, 4, 139);
@@ -28,7 +28,7 @@ body {
     width: 70px;
     height: 60px;
 
-    background-image: url(airplane2.png);
+    background-image: url(/images/airplane2.png);
     background-size: cover;
 }
 
@@ -45,7 +45,7 @@ body {
     left: 50%;
 
     transform: translate(-50%, -50%);
-    background-image: url(gameover2.webp);
+    background-image: url(images/gameover2.webp);
     background-size: contain;
     background-repeat: 0;
     padding: 50px;
