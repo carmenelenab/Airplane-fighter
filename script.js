@@ -5,12 +5,12 @@ const airplaneWidth = airplane.offsetWidth;
 
 const MOVE_BY = 10;
 const SPEED_ADJUSTMENT = 5;
-const TIMER_INTERVAL = 1000; // 1 second
+const ONE_SECOND_INTERVAL = 1000;
 const COLLISION_CHECK_INTERVAL = 100;
 const FALLING_CHECK_INTERVAL = 60;
 const FALLING_OBJECT_INTEVAL = 2000;
 const FALLING_OBJECT_WIDTH = 65;
-const ONE_MINUTE = 60;// 60 second
+const ONE_MINUTE = 60;
 
 let airplaneLeft;
 let avoidedObjects = 0;
@@ -39,7 +39,7 @@ function startTimer() {
             seconds = 0;
             ++minutes;
         }
-    }, TIMER_INTERVAL) // Update timer every second
+    }, ONE_SECOND_INTERVAL)
 }
 
 //listening the keydown events
@@ -107,7 +107,7 @@ function generateFallingObject() {
                 console.log(avoidedObjects);
             }
         }
-    }, FALLING_CHECK_INTERVAL); // Adjust interval as needed
+    }, FALLING_CHECK_INTERVAL);
 }
 
 // Call function at regular intervals to generate falling objects
@@ -136,7 +136,6 @@ function checkCollision() {
     });
 }
 
-// Check for collision every 100 milliseconds
 setInterval(checkCollision, COLLISION_CHECK_INTERVAL);
 
 function isGameOver() {
