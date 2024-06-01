@@ -13,14 +13,14 @@ body {
     background-image: url(/images/background.jpg);
     background-size: cover;
     background-repeat: no-repeat;
-    border: 3px solid rgb(24, 4, 139);
 
+    border: 3px solid rgb(24, 4, 139);
     margin: 0 auto;
     position: relative;
 }
 
 .airplane {
-    position: relative;
+    position: absolute;
 
     left: 50%;
     bottom: 0;
@@ -37,6 +37,86 @@ body {
     width: 65px;
     height: 60px;
     background-size: cover;
+    top: 0px;
+    animation: fall 3s infinite linear;
+}
+
+@keyframes fall {
+    0% {
+        top: 0;
+    }
+
+    100% {
+        top: 85%;
+    }
+}
+
+.column-0 {
+    left: 0px;
+}
+
+.column-1 {
+    left: 65px;
+}
+
+.column-2 {
+    left: 130px;
+}
+
+.column-3 {
+    left: 195px;
+}
+
+.column-4 {
+    left: 260px;
+}
+
+.column-5 {
+    left: 325px;
+}
+
+.column-6 {
+    left: 390px;
+}
+
+.column-7 {
+    left: 455px;
+}
+
+.column-8 {
+    left: 520px;
+}
+
+.column-9 {
+    left: 585px;
+}
+
+.column-10 {
+    left: 650px;
+}
+
+.column-11 {
+    left: 715px;
+}
+
+.column-12 {
+    left: 780px;
+}
+
+.object1 {
+    background-image: url(images/object1.png);
+}
+
+.object2 {
+    background-image: url(images/object2.png);
+}
+
+.object3 {
+    background-image: url(images/object3.png);
+}
+
+.object4 {
+    background-image: url(images/object4.png);
 }
 
 #game-over {

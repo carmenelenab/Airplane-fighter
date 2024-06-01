@@ -2,14 +2,13 @@ const airplane = document.querySelector('.airplane');
 const gameBoard = document.querySelector('.gameBoard');
 const gameBoardWidth = gameBoard.clientWidth;
 const airplaneWidth = airplane.offsetWidth;
+const objectImages = ['object1', 'object2', 'object3', 'object4'];
+const columns = 13;
 
 const MOVE_BY = 10;
-const SPEED_ADJUSTMENT = 5;
 const ONE_SECOND_INTERVAL = 1000;
 const COLLISION_CHECK_INTERVAL = 100;
-const FALLING_CHECK_INTERVAL = 60;
 const FALLING_OBJECT_INTEVAL = 2000;
-const FALLING_OBJECT_WIDTH = 65;
 const ONE_MINUTE = 60;
 
 let airplaneLeft;
@@ -23,7 +22,6 @@ window.addEventListener('load', () => {
 
 function setInitialPosition() {
     airplaneLeft = (gameBoardWidth - airplaneWidth) / 2;
-    airplane.style.position = 'absolute';
     airplane.style.left = airplaneLeft + 'px';
 }
 
@@ -60,13 +58,6 @@ window.addEventListener('keydown', (e) => {
     }
 });
 
-const objectImages = [
-    'images/object1.png',
-    'images/object2.png',
-    'images/object3.png',
-    'images/object4.png',
-];
-
 function generateFallingObject() {
     if (gameOver) {
         return;
@@ -76,42 +67,29 @@ function generateFallingObject() {
     fallingObject.classList.add('fallingObject');
 
     let randomImage =
-        objectImages[Math.floor(Math.random() * objectImages.length)];
-    const columns = Math.floor(gameBoardWidth / FALLING_OBJECT_WIDTH);
+        `object${Math.floor(Math.random() * objectImages.length) + 1}`;
+    fallingObject.classList.add(randomImage);
     const randomColumn = Math.floor(Math.random() * columns);
-    const objectLeft = randomColumn * FALLING_OBJECT_WIDTH;
-
-    // Apply styles to the falling object
-    fallingObject.style.backgroundImage = `url(${randomImage})`;
-    fallingObject.style.backgroundSize = 'cover';
-    fallingObject.style.left = objectLeft + 'px';
-    fallingObject.style.top = '0px'; // Start from above the game board
+    const columnClass = `column-${randomColumn}`;
+    fallingObject.classList.add(columnClass);
 
     // Append the falling object to the game board
     console.log('Adding falling object:', fallingObject);
     gameBoard.appendChild(fallingObject);
-
-    // Animate the falling object
-    let fallInterval = setInterval(() => {
-        let topPosition = parseInt(fallingObject.style.top);
-        let bottomPosition = topPosition + fallingObject.offsetHeight;
-        if (bottomPosition < gameBoard.offsetHeight) {
-            // Adjust speed as needed
-            fallingObject.style.top = (topPosition + SPEED_ADJUSTMENT) + 'px';
-        } else {
-            clearInterval(fallInterval);
-            // Remove the falling object when it reaches the bottom
-            gameBoard.removeChild(fallingObject);
-            if (!gameOver) {
-                ++avoidedObjects;
-                console.log(avoidedObjects);
-            }
-        }
-    }, FALLING_CHECK_INTERVAL);
+    // animateFallingObjects(fallingObject);
 }
 
-// Call function at regular intervals to generate falling objects
-// Adjust interval as need
+document.addEventListener('animationiteration', function (event) {
+    if (event.animationName === 'fall') {
+        const fallingObject = event.target;
+        gameBoard.removeChild(fallingObject);
+        if (!gameOver) {
+            ++avoidedObjects;
+            console.log(avoidedObjects);
+        }
+    }
+});
+
 let objectInterval = setInterval(generateFallingObject, FALLING_OBJECT_INTEVAL);
 
 function checkCollision() {
@@ -127,6 +105,7 @@ function checkCollision() {
             fallingObjectRect.right > airplaneRect.left &&
             fallingObjectRect.top < airplaneRect.bottom &&
             fallingObjectRect.bottom > airplaneRect.top) {
+
             // Collision detected
             gameOver = true;
             clearInterval(objectInterval);
