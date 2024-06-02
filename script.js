@@ -40,22 +40,20 @@ function startTimer() {
     }, ONE_SECOND_INTERVAL)
 }
 
-//listening the keydown events
 window.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft') {
         if (airplaneLeft > 0) {
             airplaneLeft -= MOVE_BY;
             airplaneLeft = Math.max(airplaneLeft, 0);
-            airplane.style.left = airplaneLeft + 'px';
         }
     } else if (e.key === 'ArrowRight') {
         if (airplaneLeft + airplaneWidth < gameBoardWidth) {
             airplaneLeft += MOVE_BY;
             let maxRightPosition = gameBoardWidth - airplaneWidth;
             airplaneLeft = Math.min(airplaneLeft, maxRightPosition);
-            airplane.style.left = airplaneLeft + 'px';
         }
     }
+    airplane.style.left = airplaneLeft + 'px';
 });
 
 function generateFallingObject() {
@@ -69,14 +67,11 @@ function generateFallingObject() {
     let randomImage =
         `object${Math.floor(Math.random() * objectImages.length) + 1}`;
     fallingObject.classList.add(randomImage);
+
     const randomColumn = Math.floor(Math.random() * columns);
     const columnClass = `column-${randomColumn}`;
     fallingObject.classList.add(columnClass);
-
-    // Append the falling object to the game board
-    console.log('Adding falling object:', fallingObject);
     gameBoard.appendChild(fallingObject);
-    // animateFallingObjects(fallingObject);
 }
 
 document.addEventListener('animationiteration', function (event) {
@@ -85,28 +80,28 @@ document.addEventListener('animationiteration', function (event) {
         gameBoard.removeChild(fallingObject);
         if (!gameOver) {
             ++avoidedObjects;
-            console.log(avoidedObjects);
         }
     }
 });
 
 let objectInterval = setInterval(generateFallingObject, FALLING_OBJECT_INTEVAL);
 
+function isColliding(fallingObjectRect, airplaneRect) {
+    return fallingObjectRect.left < airplaneRect.right &&
+        fallingObjectRect.right > airplaneRect.left &&
+        fallingObjectRect.top < airplaneRect.bottom &&
+        fallingObjectRect.bottom > airplaneRect.top;
+}
+
 function checkCollision() {
     // Get the position and size of the airplane
     let airplaneRect = airplane.getBoundingClientRect();
+
     // Loop through all falling objects
     document.querySelectorAll('.fallingObject').forEach((fallingObject) => {
         // Get the position and size of the falling object
         let fallingObjectRect = fallingObject.getBoundingClientRect();
-
-        // Check for collision
-        if (fallingObjectRect.left < airplaneRect.right &&
-            fallingObjectRect.right > airplaneRect.left &&
-            fallingObjectRect.top < airplaneRect.bottom &&
-            fallingObjectRect.bottom > airplaneRect.top) {
-
-            // Collision detected
+        if (isColliding(fallingObjectRect, airplaneRect)) {
             gameOver = true;
             clearInterval(objectInterval);
             clearInterval(timerInterval);
